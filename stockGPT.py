@@ -220,5 +220,7 @@ if user_input:
     except Exception as e:
         raise e
 
+#For Run on Terminal streamlit run C:\Users\"USER_NAME"\PycharmProjects\YF-Cbot\stockGPT.py
+
 
 
