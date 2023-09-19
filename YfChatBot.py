@@ -64,3 +64,5 @@ if prompt := st.chat_input("Selam! Nasıl yardımcı olabilirim?"):
 
         response_for_state = f"{response_content} {apology_message} {response_seconds:.2f} saniye"
         st.session_state.messages.append({"role": "assistant", "content": response_for_state})
+
+    #For Run on Terminal streamlit run C:\Users\"USER_NAME"\PycharmProjects\YF-Cbot\YfChatBot.py
