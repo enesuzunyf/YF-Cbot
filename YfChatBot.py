@@ -3,20 +3,23 @@ import streamlit as st
 import json
 from datetime import datetime
 import config
+import logging
 
 st.title("Yatırım Finansman Chatbot")
 openai.api_key = config.api_key
+logging.basicConfig(filename='C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\chatbot_logs.log', level=logging.INFO, format='%(asctime)s - %(message)s', encoding='utf-8')  # encoding ekleyin
+
 
 # Veriyi yükle
-with open('C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\training_data.json', 'r', encoding='utf-8') as f:
+with open('C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\json_files\\training_data.json', 'r', encoding='utf-8') as f:
     veri = json.load(f)
-with open('C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\Kurumsal_Iletisim_SSS.json', 'r', encoding='utf-8') as r:
+with open('C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\json_files\\Kurumsal_Iletisim_SSS.json', 'r',
+          encoding='utf-8') as r:
     veri2 = json.load(r)
-with open('C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\website_SSS.json', 'r', encoding='utf-8') as r:
+with open('C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\json_files\\website_SSS.json', 'r', encoding='utf-8') as r:
     veri3 = json.load(r)
-with open('C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\YFHatırlatma.json', 'r', encoding='utf-8') as r:
+with open('C:\\Users\\enes.uzun\\PycharmProjects\\YF_cbot\\json_files\\YFHatırlatma.json', 'r', encoding='utf-8') as r:
     veri4 = json.load(r)
-
 
 def chat_with_gpt3(message):
     response = openai.ChatCompletion.create(
@@ -33,6 +36,13 @@ def chat_with_gpt3(message):
         temperature=0.4,
         max_tokens=1000
     )
+    user_message = message
+    logging.info(f"Kullanıcı: {user_message}")
+
+    assistant_response = response.choices[0].message['content']
+    logging.info(f"Asistan: {assistant_response}")
+
+
     return response.choices[0].message['content']
 
 
@@ -64,5 +74,4 @@ if prompt := st.chat_input("Selam! Nasıl yardımcı olabilirim?"):
 
         response_for_state = f"{response_content} {apology_message} {response_seconds:.2f} saniye"
         st.session_state.messages.append({"role": "assistant", "content": response_for_state})
-
-    #For Run on Terminal streamlit run C:\Users\"USER_NAME"\PycharmProjects\YF-Cbot\YfChatBot.py
+#streamlit run C:\Users\enes.uzun\PycharmProjects\YF_cbot\YfChatBot.py
